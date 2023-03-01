@@ -10,7 +10,6 @@ public class Example {
     static void print(Object obj) {
         System.out.println(obj);
     }
-
     public static void main(String[] args) throws TMException {
         TransactionManager tm = new TransactionManager();
         List<String> list1;
@@ -39,12 +38,7 @@ public class Example {
         System.out.println();
         list1 = tm.getCarriersForRegion("regions1");
         print(list1); //[c3, c4, c5]
-        System.out.println();
-        list1.add("c3");
-        list1.add("c4");
-        list1.add("c5");
-        System.out.println(list1);
-        System.out.println();
+//        System.out.println(list1);
         //R2
         print("R2");
         System.out.println();
@@ -88,34 +82,45 @@ public class Example {
 
         //R3
         print("R3");
+        System.out.println();
         tm.addTransaction("t1", "c3", "req1", "o2"); //regions reg2, reg1
         try {
             tm.addTransaction("t7", "c4", "req2", "o3"); //reg1, reg2 not handled by c4
         } catch (TMException ex) {
+            System.out.println();
             print("carrier doesn't handle reg2");
+            System.out.println();
         }
         tm.addTransaction("t5", "c4", "req4", "o4");
         try {
             tm.addTransaction("t8", "c4", "req2", "o5"); //productIds product8, product6
         } catch (TMException ex) {
+            System.out.println();
             print("mismatch in productIds");
         }
         try {
             tm.addTransaction("t9", "c3", "req1", "o9");
         } catch (TMException ex) {
+            System.out.println();
             print("req1 already handled");
         }
         try {
             tm.addTransaction("t10", "c3", "req9", "o2");
         } catch (TMException ex) {
+            System.out.println();
             print("o2 already handled");
         }
+        System.out.println();
         tm.addTransaction("t3", "c3", "req6", "o1");
+        System.out.println();
         tm.addTransaction("t4", "c4", "req0", "o6");
+        System.out.println();
         tm.addTransaction("t6", "c3", "req5", "o7");
+        System.out.println();
 
         boolean b;
         b = tm.evaluateTransaction("t1", 6);
+        System.out.println();
         print(b); //true
         b = tm.evaluateTransaction("t5", 12);
         print(b); //false

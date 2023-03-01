@@ -11,4 +11,10 @@ public class Place {
     public String getName() {
         return name;
     }
+
+    public Region getRegion() {
+        return region;
+    }
+
+
 }
