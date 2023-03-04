@@ -127,6 +127,7 @@ public class Example {
         tm.evaluateTransaction("t5", 4);
         tm.evaluateTransaction("t3", 8);
         tm.evaluateTransaction("t4", 7);
+
 //R4
         print("R4");
         SortedMap<Long, List<String>> m1 = tm.deliveryRegionsPerNT();

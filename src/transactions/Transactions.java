@@ -2,10 +2,10 @@ package transactions;
 
 public class Transactions {
     private String transactionsId;
-    private  Carrier carrier;
+    private Carrier carrier;
     private Request request;
     private Offer offer;
-    private  int score;
+    private int score;
 
     public Transactions(String transactionsId, Carrier carrier, Request request, Offer offer) {
         this.transactionsId = transactionsId;
@@ -55,3 +55,17 @@ public class Transactions {
         this.score = score;
     }
 }
+
+//    @Override
+//    public String toString() {
+//        return "Transactions{" +
+//                "transactionsId='" + transactionsId + '\'' +
+//                ", carrier=" + carrier.getName() +
+//                ", request=" + request.getRequestId() +
+//                ", request=" + request.getPlace().getName() +
+//                ", request=" + request.getPlace().getRegion().getName() +
+//                ", offer=" + offer.getOfferId() +
+//                ", score=" + score +
+//                '}';
+//    }
+//}

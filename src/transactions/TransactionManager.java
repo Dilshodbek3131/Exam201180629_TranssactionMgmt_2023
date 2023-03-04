@@ -1,6 +1,7 @@
 package transactions;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class TransactionManager {
 
@@ -62,10 +63,8 @@ public class TransactionManager {
         requestsMap.put(requestId, request);
     }
 
-    public void addOffer(String offerId, String placeName, String productId)
-            throws TMException {
+    public void addOffer(String offerId, String placeName, String productId) throws TMException {
         Place place = new Place(placeName);
-
         if (!placeMap.containsKey(placeName)) throw new TMException();
         if (offersMap.containsKey(offerId)) throw new TMException();
 
@@ -81,12 +80,11 @@ public class TransactionManager {
         Offer offer = offersMap.get(offerId);
 
         for (Transactions transactions : transactionsMap.values())
-            if (transactions.getRequest().getProductId().equals(requestId) || transactions.getOffer().getOfferId().equals(offerId))
-                throw new TMException();
+            if (transactions.getRequest().getProductId().equals(requestId) || transactions.getOffer().getRequestId().equals(offerId)) throw new TMException();
         // TODO: 24.02.2023 check later
         if (!request.getProductId().equals(offer.getProductId())) throw new TMException();
-        if (!carrier.getRegions().contains(request.getPlace().getRegion())) throw new TMException();
-        if (!carrier.getRegions().contains(offer.getPlace().getRegion())) throw new TMException();
+//        if (carrier.getRegions().contains(request.getPlace().getRegion())) throw new TMException();
+//        if (carrier.getRegions().contains(offer.getPlace().getRegion())) throw new TMException();
         Transactions transactions = new Transactions(transactionId, carrier, request, offer);
         transactionsMap.put(transactionId, transactions);
 
@@ -102,8 +100,22 @@ public class TransactionManager {
 
     //R4
     public SortedMap<Long, List<String>> deliveryRegionsPerNT() {
+        Map<String, Long> map = new HashMap<>();
+        for (Transactions transactions : transactionsMap.values()) {
+            String regionName = transactions.getRequest().getPlace().getRegion().getName();
+            if (!map.containsKey(regionName)){
+                map.put(regionName, 1L);
+            }else {
+                map.put(regionName,map.get(regionName) + 1);
+            }
+
+        }
+        System.out.println(map);
+
+
+
         return new TreeMap<Long, List<String>>();
-    }
+}
 
     public SortedMap<String, Integer> scorePerCarrier(int minimumScore) {
         return new TreeMap<String, Integer>();
@@ -111,5 +123,9 @@ public class TransactionManager {
 
     public SortedMap<String, Long> nTPerProduct() {
         return new TreeMap<String, Long>();
+    }
+
+    public Map<String, Transactions> getTransactionsMap() {
+        return transactionsMap;
     }
 }
